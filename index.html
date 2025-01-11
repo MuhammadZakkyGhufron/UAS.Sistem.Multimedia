@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notepad App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        textarea {
+            flex: 1;
+            width: 100%;
+            border: none;
+            outline: none;
+            padding: 10px;
+            box-sizing: border-box;
+            font-size: 16px;
+            resize: none;
+        }
+
+        footer {
+            background-color: #f1f1f1;
+            padding: 10px;
+            text-align: center;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Notepad App</h1>
+    </header>
+
+    <textarea id="notepad" placeholder="Start typing..."></textarea>
+
+    <footer>
+        <button onclick="saveToFile()">Save to File</button>
+        <button onclick="loadFromFile()">Load from File</button>
+        <button onclick="clearNote()">Clear</button>
+    </footer>
+
+    <script>
+        // Save note as a file
+        async function saveToFile() {
+            const content = document.getElementById('notepad').value;
+            const blob = new Blob([content], { type: "text/plain" });
+            const handle = await window.showSaveFilePicker({
+                suggestedName: "my_note.txt",
+                types: [
+                    {
+                        description: "Text Files",
+                        accept: { "text/plain": [".txt"] },
+                    },
+                ],
+            });
+            const writableStream = await handle.createWritable();
+            await writableStream.write(blob);
+            await writableStream.close();
+            alert('File saved successfully!');
+        }
+
+        // Load note from a file
+        async function loadFromFile() {
+            const [fileHandle] = await window.showOpenFilePicker({
+                types: [
+                    {
+                        description: "Text Files",
+                        accept: { "text/plain": [".txt"] },
+                    },
+                ],
+                multiple: false,
+            });
+            const file = await fileHandle.getFile();
+            const content = await file.text();
+            document.getElementById('notepad').value = content;
+            alert('File loaded successfully!');
+        }
+
+        // Clear the textarea
+        function clearNote() {
+            document.getElementById('notepad').value = '';
+            alert('Note cleared!');
+        }
+    </script>
+    <footer>Create By KangMasTamvan</footer>
+</body>
+</html>
