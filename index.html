@@ -1,113 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notepad App</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-        }
+    <title>Notes App Example</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon_io/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon_io/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon_io/favicon-16x16.png">
+<link rel="manifest" href="/favicon_io/site.webmanifest">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-        header {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px;
-            text-align: center;
-        }
-
-        textarea {
-            flex: 1;
-            width: 100%;
-            border: none;
-            outline: none;
-            padding: 10px;
-            box-sizing: border-box;
-            font-size: 16px;
-            resize: none;
-        }
-
-        footer {
-            background-color: #f1f1f1;
-            padding: 10px;
-            text-align: center;
-        }
-
-        button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-    </style>
 </head>
+
 <body>
-    <header>
-        <h1>Notepad App</h1>
-    </header>
 
-    <textarea id="notepad" placeholder="Start typing..."></textarea>
-
-    <footer>
-        <button onclick="saveToFile()">Save to File</button>
-        <button onclick="loadFromFile()">Load from File</button>
-        <button onclick="clearNote()">Clear</button>
-    </footer>
-
-    <script>
-        // Save note as a file
-        async function saveToFile() {
-            const content = document.getElementById('notepad').value;
-            const blob = new Blob([content], { type: "text/plain" });
-            const handle = await window.showSaveFilePicker({
-                suggestedName: "my_note.txt",
-                types: [
-                    {
-                        description: "Text Files",
-                        accept: { "text/plain": [".txt"] },
-                    },
-                ],
-            });
-            const writableStream = await handle.createWritable();
-            await writableStream.write(blob);
-            await writableStream.close();
-            alert('File saved successfully!');
-        }
-
-        // Load note from a file
-        async function loadFromFile() {
-            const [fileHandle] = await window.showOpenFilePicker({
-                types: [
-                    {
-                        description: "Text Files",
-                        accept: { "text/plain": [".txt"] },
-                    },
-                ],
-                multiple: false,
-            });
-            const file = await fileHandle.getFile();
-            const content = await file.text();
-            document.getElementById('notepad').value = content;
-            alert('File loaded successfully!');
-        }
-
-        // Clear the textarea
-        function clearNote() {
-            document.getElementById('notepad').value = '';
-            alert('Note cleared!');
-        }
-    </script>
+    <div class="container">
+        <h1><img src="images/notes.png">Notes Simple</h1>
+        <button class="btn"><img src="images/edit.png">Create Notes!</button>
+        <button class="btn reset-btn">Reset Data</button>
+        <button class="btn" id="saveBtn">
+            <i class="fas fa-save"></i> Simpan Catatan
+        </button>        
+        <div class="notes-container">
+            <div class="input-box" contenteditable="true">
+            
+                <img src="images/delete.png" alt="Delete" class="delete-btn">
+            </div>
+        </div>
+    </div>
+    <div class="notes-container"></div>
     <footer>Create By KangMasTamvan</footer>
+    <script src="script.js"></script>
 </body>
 </html>
